@@ -21,6 +21,14 @@ def load_account_data():
     yield
     db.session.close()
 
+@pytest.fixture
+def setup_account():
+    """Fixture to create a test account"""
+    account = Account(name="John businge", email="john.businge@example.com")
+    db.session.add(account)
+    db.session.commit()
+    return account
+
 @pytest.fixture(scope="function", autouse=True)
 def setup_and_teardown():
     """ Truncate the tables and set up for each test """
@@ -85,48 +93,47 @@ Each test should include:
 - A meaningful **commit message** when submitting their PR.
 """
 
-# TODO 1: Test Account Serialization
-# - Ensure `to_dict()` correctly converts an account to a dictionary format.
-# - Verify that all expected fields are included in the dictionary.
+# TODO 1: Test Default Values
+# - Ensure that new accounts have the correct default values (e.g., `disabled=False`).
+# - Check if an account has no assigned role, it defaults to "user".
 
-# TODO 2: Test Invalid Email Input
+# TODO 2: Test Updating Account Email
+# - Ensure an account’s email can be successfully updated.
+# - Verify that the updated email is stored in the database.
+
+# TODO 3: Test Finding an Account by ID
+# - Create an account and retrieve it using its ID.
+# - Ensure the retrieved account matches the created one.
+
+# TODO 4: Test Invalid Email Handling
 # - Check that invalid emails (e.g., "not-an-email") raise a validation error.
 # - Ensure accounts without an email cannot be created.
 
-# TODO 3: Test Missing Required Fields
-# - Ensure that creating an `Account()` without required fields raises an error.
-# - Validate that missing fields trigger the correct exception.
-
-# TODO 4: Test Positive Deposit
-# - Ensure `deposit()` correctly increases the account balance.
-# - Verify that depositing a positive amount updates the balance correctly.
-
-# TODO 5: Test Deposit with Zero/Negative Values
-# - Ensure `deposit()` raises an error for zero or negative amounts.
-# - Verify that balance remains unchanged after an invalid deposit attempt.
-
-# TODO 6: Test Valid Withdrawal
-# - Ensure `withdraw()` correctly decreases the account balance.
-# - Verify that withdrawals within available balance succeed.
-
-# TODO 7: Test Withdrawal with Insufficient Funds
-# - Ensure `withdraw()` raises an error when attempting to withdraw more than available balance.
-# - Verify that the balance remains unchanged after a failed withdrawal.
-
-# TODO 8: Test Password Hashing
+# TODO 5: Test Password Hashing
 # - Ensure that passwords are stored as **hashed values**.
 # - Verify that plaintext passwords are never stored in the database.
-# - Test password verification with `set_password()` and `check_password()`.
 
-# TODO 9: Test Role Assignment
-# - Ensure that `change_role()` correctly updates an account’s role.
-# - Verify that the updated role is stored in the database.
+# TODO 6: Test Account Persistence
+# - Create an account, commit the session, and restart the session.
+# - Ensure the account still exists in the database.
 
-# TODO 10: Test Invalid Role Assignment
-# - Ensure that assigning an invalid role raises an appropriate error.
-# - Verify that only allowed roles (`admin`, `user`, etc.) can be set.
+# TODO 7: Test Searching by Name
+# - Ensure accounts can be searched by their **name**.
+# - Verify that partial name searches return relevant accounts.
 
-# TODO 11: Test Deleting an Account
-# - Ensure that `delete()` removes an account from the database.
-# - Verify that attempting to retrieve a deleted account returns `None` or raises an error.
+# TODO 8: Test Bulk Insertion
+# - Create and insert multiple accounts at once.
+# - Verify that all accounts are successfully stored in the database.
 
+# TODO 9: Test Account Deactivation/Reactivate
+# - Ensure accounts can be deactivated.
+# - Verify that deactivated accounts cannot perform certain actions.
+# - Ensure reactivation correctly restores the account.
+
+# TODO 10: Test Email Uniqueness Enforcement
+# - Ensure that duplicate emails are not allowed.
+# - Verify that accounts must have a unique email in the database.
+
+# TODO 11: Test Role-Based Access
+# - Ensure users with different roles ('admin', 'user', 'guest') have appropriate permissions.
+# - Verify that role changes are correctly reflected in the database.

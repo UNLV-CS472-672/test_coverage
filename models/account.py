@@ -4,7 +4,7 @@ models/account.py
 Defines the Account model.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db
@@ -21,7 +21,7 @@ class Account(db.Model):
     email = db.Column(db.String(120), nullable=False, unique=True)
     phone_number = db.Column(db.String(20))
     disabled = db.Column(db.Boolean, default=False)
-    date_joined = db.Column(db.DateTime, default=datetime.utcnow)
+    date_joined = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     balance = db.Column(db.Float, default=0.0)
     role = db.Column(db.String(20), default="user")  # Possible roles: user, admin
     password_hash = db.Column(db.String(128))
@@ -47,6 +47,13 @@ class Account(db.Model):
         email_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
         if not re.match(email_regex, self.email):
             raise DataValidationError("Invalid email format")
+
+    def validate_required_fields(self):
+        """Ensures the required fields are present"""
+        if not self.name:
+            raise DataValidationError("name is required")
+        if not self.email:
+            raise DataValidationError("email is required")
 
     def validate_unique_email(self):
         """Ensures the email is unique in the database"""

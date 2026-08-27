@@ -2,7 +2,7 @@
 Test Cases for Account Model
 """
 import json
-from random import randrange
+from pathlib import Path
 import pytest
 from models import db
 from models.account import Account, DataValidationError
@@ -13,7 +13,7 @@ ACCOUNT_DATA = {}
 def load_account_data():
     """ Load data needed by tests """
     global ACCOUNT_DATA
-    with open('tests/fixtures/account_data.json') as json_data:
+    with open(Path(__file__).parent / 'fixtures' / 'account_data.json') as json_data:
         ACCOUNT_DATA = json.load(json_data)
 
     # Set up the database tables
@@ -105,8 +105,10 @@ Each test should include:
 # Target Method: validate_email()
 
 # Student 3: Test missing required fields
-# - Ensure account initialization fails when required fields are missing.
-# Target Method: Account() initialization
+# - Ensure a DataValidationError is raised when name or email is missing.
+# - Note: SQLAlchemy does not validate on construction, so Account() itself
+#   never raises. Call the validation method on the constructed object.
+# Target Method: validate_required_fields()
 
 # Student 4: Test positive deposit
 # - Verify that depositing a positive amount correctly increases the balance.

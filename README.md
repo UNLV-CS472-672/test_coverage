@@ -3,8 +3,8 @@ This repo contains starter code for test coverage exercises. Follow the instruct
 
 ## Additional Information
 
-### Python Version (s)
-To be able to following the lab, you need at least python `>= 3.8`. The exercise has been testing with the following Python versions: `3.8.1`, `3.9.5`, `3.9.6`, `3.9.7` and `3.10.10` but any version of python `3.8+` work without any configuration issues. **If you are facing any configuration issue, please reach out to the T.A**. 
+### Python Version(s)
+You need Python `>= 3.9`. The exercise has been tested on `3.9.6` and `3.13.5`, and any Python `3.9+` should work without configuration changes. Python 3.8 is end-of-life and is no longer supported by the pinned dependencies. **If you are facing any configuration issue, please reach out to the T.A**. 
 
 ### Upgrading PIP:
 Sometimes it is useful to upgrade `pip` before installing dependencies. If you like, run: `pip install --upgrade pip` and later install the dependencies using: `pip install -r requirements.txt`
@@ -17,7 +17,7 @@ Sometimes it is useful to upgrade `pip` before installing dependencies. If you l
    python3 -m venv venv
    source venv/bin/activate
    ```
-   **NB:** Replace `python3` with any of the versions listed above e.g: `python3.7` or `python3.9.5`. 
+   **NB:** Replace `python3` with any of the versions listed above e.g: `python3.11` or `python3.13`. 
 
    - For `Window OS` user, the easest approach is to install `virtualenv` by running `pip install virtualenv`. The next step is pretty much similar to above;
    ```
